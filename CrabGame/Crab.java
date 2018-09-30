@@ -18,8 +18,11 @@ public class Crab extends Actor
     public Crab()
     {
         // image1을 crab.png로 설정
+        image1=new GreenfootImage("crab.png");
         // image2를 crab2.png로 설정
+        image2=new GreenfootImage("crab2.png");
         // 초기 wormEaten은 0
+        wormsEaten=0;
     }
     
     /**
@@ -72,9 +75,14 @@ public class Crab extends Actor
     public void checkKeypress()
     {
         // <- 방향키를 입력받으면 -4 만큼 회전
+        if(Greenfoot.isKeyDown("left")){
+            turn(-4);
         // -> 방향키를 입력받으면 4 만큼 회전
     }
-    
+    if(Greenfoot.isKeyDown("right")){
+        turn(4);
+    }
+}
     /**
      * Check whether we have stumbled upon a worm.
      * If we have, eat it. If not, do nothing. If we have
@@ -83,12 +91,22 @@ public class Crab extends Actor
     public void lookForWorm()
     {
         // Worm에 닿은 경우
+        if(isTouching(Worm.class)){
         // Worm을 제거
+        removeTouching(Worm.class);
         // slurp.wav 음악 재생
+        Greenfoot.playSound("slurp.wav");
         // wormsEaten 증가
+        wormsEaten+=1;
         // 먹은 Worm의 수가 8인 경우
+        if(wormsEaten==8){
         // fanfare.wav 음악 재생
+        Greenfoot.playSound("fanfare.wav");
         // Congratulation! 문구 표시
-        // Greenfoot.stop();
+        getWorld().showText("Congratulation!",300,200);
+        Greenfoot.stop();
+        
+    }
     }  
+}
 }
